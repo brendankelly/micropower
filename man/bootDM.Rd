@@ -3,12 +3,12 @@
 \alias{bootDM}
 \title{Take a bootstrap sample from a square distance matrix.}
 \usage{
-bootDM(dm, subjects_per_group)
+bootDM(dm, subject_group_vector = c(3, 4, 5))
 }
 \arguments{
 \item{dm}{a square distance matrix}
 
-\item{subjects_per_group}{number of subjects per group to sample.}
+\item{subjects_group_vector}{vector with number of subjects in each group to sample.}
 }
 \value{
 A square distance matrix.

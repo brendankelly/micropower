@@ -424,15 +424,15 @@ calcPERMANOVAp <- function(perm=PERMANOVA(dm)) {
 #' @title Take a bootstrap sample from a square distance matrix.
 #' @description Random sample with replacement from a distance matrix, with resulting matrix specified by number of subjects per group.
 #' @param dm a square distance matrix
-#' @param subjects_per_group number of subjects per group to sample.
+#' @param subjects_group_vector vector with number of subjects in each group to sample.
 #' @return A square distance matrix.
 #' @seealso \code{\link{calcUJstudy}}, \code{\link{calcWJstudy}}
 #' @export
 #' @examples
 #' bootDM(calcUJstudy(simStudy()))
-bootDM <- function(dm,subjects_per_group) {
-  groups <- unique(rownames(groupNames(dm)))
-  s <- lapply(groups,FUN=function(x) {sample(grep(x,rownames(dm),value=T),subjects_per_group,replace=T)})
+bootDM <- function(dm,subject_group_vector=c(3,4,5)) {
+  groups <- sort(unique(rownames(groupNames(dm))))
+  s <- Map(function(g,v) sample(grep(g,rownames(dm),value=TRUE),v,replace=TRUE),groups,subject_group_vector)
   s <- do.call(c,s)
   s <- dm[s,s]
   return(s)
