@@ -3,7 +3,7 @@
 \alias{bootPower}
 \title{Perform bootstrap power analysis on a list of square distance matrices.}
 \usage{
-bootPower(dm_list, boot_number = 100, subjects_per_group = 10,
+bootPower(dm_list, boot_number = 100, subject_group_vector = c(3, 4, 5),
   alpha = 0.05)
 }
 \arguments{
@@ -11,7 +11,7 @@ bootPower(dm_list, boot_number = 100, subjects_per_group = 10,
 
 \item{boot_number}{the number of bootstrap samples to perform on each distance matrix in the list}
 
-\item{subjects_per_group}{number of subjects per group to sample.}
+\item{subject_group_vector}{number of subjects in each group to sample, as a vector.}
 
 \item{alpha}{the threshold for PERMANOVA type I error}
 }

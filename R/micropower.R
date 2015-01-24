@@ -424,7 +424,7 @@ calcPERMANOVAp <- function(perm=PERMANOVA(dm)) {
 #' @title Take a bootstrap sample from a square distance matrix.
 #' @description Random sample with replacement from a distance matrix, with resulting matrix specified by number of subjects per group.
 #' @param dm a square distance matrix
-#' @param subjects_group_vector vector with number of subjects in each group to sample.
+#' @param subject_group_vector number of subjects in each group to sample, as a vector.
 #' @return A square distance matrix.
 #' @seealso \code{\link{calcUJstudy}}, \code{\link{calcWJstudy}}
 #' @export
@@ -441,26 +441,26 @@ bootDM <- function(dm,subject_group_vector) {
 
 #' @title Perform bootstrap power analysis on a list of square distance matrices.
 #' @description Estimates the statistical power of PERMANOVA testing to detect the group-level effect in the given distance matrices, based upon bootstrap sampling.
+#' @import plyr
 #' @param dm_list a list of square distance matrices, with names
 #' @param boot_number the number of bootstrap samples to perform on each distance matrix in the list
-#' @param subjects_per_group number of subjects per group to sample.
+#' @param subject_group_vector number of subjects in each group to sample, as a vector.
 #' @param alpha the threshold for PERMANOVA type I error
 #' @return A data frame relating PERMANOVA power to effect size quantified by the coefficient of determination (R^2) and omega-squared.
 #' @seealso \code{\link{simPower}}, \code{\link{bootDM}}
 #' @export
 #' @examples
 #' bootPower(lapply(simPower(),calcUJstudy))
-bootPower <- function(dm_list,boot_number=100,subjects_per_group=10,alpha=0.05) {
+bootPower <- function(dm_list,boot_number=100,subject_group_vector=c(3,4,5),alpha=0.05) {
   e <- rep(names(dm_list),each=boot_number)
   simulated_omega2 <- rep(sapply(dm_list,calcOmega2),each=boot_number)
-  dm <- lapply(dm_list,FUN=function(x) {lapply(seq(boot_number),FUN=function(y) {bootDM(x,subjects_per_group)})})
+  dm <- lapply(dm_list,FUN=function(x) {lapply(seq(boot_number),FUN=function(y) {bootDM(x,subject_group_vector)})})
   o <- lapply(dm,FUN=function(x) {sapply(x,calcOmega2)})
   p <- lapply(dm,FUN=function(x) {lapply(x,PERMANOVA)})
   r <- lapply(p,FUN=function(x) {sapply(x,calcR2)})
   p <- lapply(p,FUN=function(x) {sapply(x,calcPERMANOVAp)})
   dm <- data.frame(effect=e,simulated_omega2=simulated_omega2,observed_omega2=do.call(c,o),observed_R2=do.call(c,r),p=do.call(c,p))
   dm <- ddply(dm,.(effect),here(transform),power=length(p[p<alpha])/length(p))
-  dm$subjects_per_group <- rep(subjects_per_group,nrow(dm))
   dm$observed_omega2[dm$observed_omega2<0] <- 0
   dm$simulated_omega2[dm$simulated_omega2<0] <- 0
   return(dm)

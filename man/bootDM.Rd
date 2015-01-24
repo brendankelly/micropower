@@ -8,7 +8,7 @@ bootDM(dm, subject_group_vector)
 \arguments{
 \item{dm}{a square distance matrix}
 
-\item{subjects_group_vector}{vector with number of subjects in each group to sample.}
+\item{subject_group_vector}{number of subjects in each group to sample, as a vector.}
 }
 \value{
 A square distance matrix.
