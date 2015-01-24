@@ -429,8 +429,8 @@ calcPERMANOVAp <- function(perm=PERMANOVA(dm)) {
 #' @seealso \code{\link{calcUJstudy}}, \code{\link{calcWJstudy}}
 #' @export
 #' @examples
-#' bootDM(calcUJstudy(simStudy()))
-bootDM <- function(dm,subject_group_vector=c(3,4,5)) {
+#' bootDM(calcUJstudy(simStudy()),c(3,4,5))
+bootDM <- function(dm,subject_group_vector) {
   groups <- sort(unique(rownames(groupNames(dm))))
   s <- Map(function(g,v) sample(grep(g,rownames(dm),value=TRUE),v,replace=TRUE),groups,subject_group_vector)
   s <- do.call(c,s)

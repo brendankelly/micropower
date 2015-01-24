@@ -1,7 +1,7 @@
 Package: micropower
 Title: Power estimation for microbiome studies using pairwise distances and
     PERMANOVA.
-Version: 0.3
+Version: 0.4
 Author: Brendan Kelly
 Maintainer: Brendan Kelly <br3nd2n@gmail.com>
 Description: Distance matrix simulation to permit modeling of within-group

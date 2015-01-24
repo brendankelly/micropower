@@ -3,7 +3,7 @@
 \alias{bootDM}
 \title{Take a bootstrap sample from a square distance matrix.}
 \usage{
-bootDM(dm, subject_group_vector = c(3, 4, 5))
+bootDM(dm, subject_group_vector)
 }
 \arguments{
 \item{dm}{a square distance matrix}
@@ -17,7 +17,7 @@ A square distance matrix.
 Random sample with replacement from a distance matrix, with resulting matrix specified by number of subjects per group.
 }
 \examples{
-bootDM(calcUJstudy(simStudy()))
+bootDM(calcUJstudy(simStudy()),c(3,4,5))
 }
 \seealso{
 \code{\link{calcUJstudy}}, \code{\link{calcWJstudy}}
